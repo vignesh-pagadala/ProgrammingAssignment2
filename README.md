@@ -1,66 +1,8 @@
-### Introduction
+# Cache Matrix
 
-This second programming assignment will require you to write an R
-function that is able to cache potentially time-consuming computations.
-For example, taking the mean of a numeric vector is typically a fast
-operation. However, for a very long vector, it may take too long to
-compute the mean, especially if it has to be computed repeatedly (e.g.
-in a loop). If the contents of a vector are not changing, it may make
-sense to cache the value of the mean so that when we need it again, it
-can be looked up in the cache rather than recomputed. In this
-Programming Assignment you will take advantage of the scoping rules of
-the R language and how they can be manipulated to preserve state inside
-of an R object.
+## About
 
-### Example: Caching the Mean of a Vector
-
-In this example we introduce the `<<-` operator which can be used to
-assign a value to an object in an environment that is different from the
-current environment. Below are two functions that are used to create a
-special object that stores a numeric vector and caches its mean.
-
-The first function, `makeVector` creates a special "vector", which is
-really a list containing a function to
-
-1.  set the value of the vector
-2.  get the value of the vector
-3.  set the value of the mean
-4.  get the value of the mean
-
-<!-- -->
-
-    makeVector <- function(x = numeric()) {
-            m <- NULL
-            set <- function(y) {
-                    x <<- y
-                    m <<- NULL
-            }
-            get <- function() x
-            setmean <- function(mean) m <<- mean
-            getmean <- function() m
-            list(set = set, get = get,
-                 setmean = setmean,
-                 getmean = getmean)
-    }
-
-The following function calculates the mean of the special "vector"
-created with the above function. However, it first checks to see if the
-mean has already been calculated. If so, it `get`s the mean from the
-cache and skips the computation. Otherwise, it calculates the mean of
-the data and sets the value of the mean in the cache via the `setmean`
-function.
-
-    cachemean <- function(x, ...) {
-            m <- x$getmean()
-            if(!is.null(m)) {
-                    message("getting cached data")
-                    return(m)
-            }
-            data <- x$get()
-            m <- mean(data, ...)
-            x$setmean(m)
-            m
-    }
+This repo contains the solution to assignment on Coursera described below.
 
 ### Assignment: Caching the Inverse of a Matrix
 
@@ -100,6 +42,75 @@ In order to complete this assignment, you must do the following:
 5.  Submit to Coursera the URL to your GitHub repository that contains
     the completed R code for the assignment.
 
-### Grading
+### Built With
 
-This assignment will be graded via peer assessment.
+* R
+
+## Getting Started
+
+### Prerequisites
+
+* R
+* R Studio
+
+### Installation
+
+To install, clone the GitHub repo:
+
+`git clone https://github.com/vignesh-pagadala/cache-matrix.git`
+
+## Usage
+
+Open the required project directory through R Studio and run the code.
+
+## Roadmap
+
+See the [open issues](https://github.com/vignesh-pagadala/cache-matrix/issues) for a list of proposed features (and known issues).
+
+- [Top Feature Requests](https://github.com/vignesh-pagadala/cache-matrix/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+- [Top Bugs](https://github.com/vignesh-pagadala/cache-matrix/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
+- [Newest Bugs](https://github.com/vignesh-pagadala/cache-matrix/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+
+## Support
+
+Reach out to the maintainer at one of the following places:
+
+- [GitHub issues](https://github.com/vignesh-pagadala/cache-matrix/issues/new?assignees=&labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+)
+- The email which is located [in GitHub profile](https://github.com/vignesh-pagadala)
+
+## Project assistance
+
+If you want to say **thank you** or/and support active development of Cache Matrix:
+
+- Add a [GitHub Star](https://github.com/vignesh-pagadala/cache-matrix) to the project.
+- Tweet about the Cache Matrix on your Twitter.
+- Write interesting articles about the project on [Dev.to](https://dev.to/), [Medium](https://medium.com/) or personal blog.
+
+Together, we can make Cache Matrix **better**!
+
+## Contributing
+
+First off, thanks for taking the time to contribute! Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
+
+We have set up a separate document containing our [contribution guidelines](docs/CONTRIBUTING.md).
+
+Thank you for being involved!
+
+## Authors & contributors
+
+The original setup of this repository is by [Vignesh Pagadala](https://github.com/vignesh-pagadala).
+
+For a full list of all authors and contributors, check [the contributor's page](https://github.com/vignesh-pagadala/cache-matrix/contributors).
+
+## Security
+
+Cache Matrix follows good practices of security, but 100% security can't be granted in software.
+Cache Matrix is provided **"as is"** without any **warranty**. Use at your own risk.
+
+_For more info, please refer to the [security](docs/SECURITY.md)._
+
+## License
+
+This project is licensed under the **MIT license**.
+
+See [LICENSE](LICENSE) for more information.
